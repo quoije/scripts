@@ -1,0 +1,3 @@
+# scripts
+
+windows, linux, etc. 🤖 
