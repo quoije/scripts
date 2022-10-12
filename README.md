@@ -1,3 +1,3 @@
 # scripts
 
-windows, linux, etc. 🤖 
+🤖  windows, linux, etc. 
