@@ -13,7 +13,7 @@ if ($sysCheck) {
     elseif ($a -eq 2) {
         $selType = $hvType[1]
     }
-    if ($selType -eq 'auto' -or $selType -eq 'off')
+    if ($selType -eq $hvType[0] -or $selType -eq $hvType[1])
     {
         Write-Host "[+] doing 'bcdedit /set hypervisorlaunchtype $selType' command"
         bcdedit /set hypervisorlaunchtype $selType 
