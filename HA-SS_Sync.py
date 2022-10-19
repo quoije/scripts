@@ -28,9 +28,9 @@ def checkLight():
         haData = loads(haResponse.text)
         return haData['attributes']['rgb_color']
 
-redRGB = checkLight()[0]
-greenRGB = checkLight()[1]
-blueRGB = checkLight()[2]
+redRGB = 0
+greenRGB = 0
+blueRGB = 0
 
 def updateLight():
     global redRGB
@@ -103,7 +103,7 @@ def sendGameEvent(kill_switch):
                 "value" : 100,
                 "frame": {
                     "zone-all-color": {
-                        "color": {"red": 0,"green": 0,"blue": 0}
+                        "color": {"red": redRGB,"green": greenRGB,"blue": blueRGB}
                     }
                 }
             }
