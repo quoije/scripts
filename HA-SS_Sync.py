@@ -1,9 +1,9 @@
-from logging import handlers
+from os import getenv
 from requests import get
 from requests import post
 from json import loads
+from json import load
 from time import sleep
-from requests import Session, post
 
 # https://github.com/slattery-mark/SteelSeries-CKL-App
 # author: slattery-mark
@@ -16,18 +16,21 @@ haHeaders = {
                 "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI0ZmQ4MzQxNTZjNjg0YThlYTFjY2NiYmNkNWEzYTI4OSIsImlhdCI6MTY2NjExMDcwMiwiZXhwIjoxOTgxNDcwNzAyfQ.5KVla7Y72yKFrWhF01EupQpSHX0Rbr0CQ-LMLW6v6VU",
                 "content-type": "application/json"
             }
-gsAddress = "http://127.0.0.1:50786"
+gsCorePropsPath = getenv('PROGRAMDATA') + "\SteelSeries\SteelSeries Engine 3\coreProps.json" 
+gsAddress = f'http://{load(open(gsCorePropsPath))["address"]}'
 gsGame = "HA_LIGHT_SYNC"
 gsEvent = "SYNC"
-redRGB = 0
-greenRGB = 0
-blueRGB = 0
+
 
 def checkLight():
         """ Check HA light color """
         haResponse = get(haUrl, headers=haHeaders)
         haData = loads(haResponse.text)
         return haData['attributes']['rgb_color']
+
+redRGB = checkLight()[0]
+greenRGB = checkLight()[1]
+blueRGB = checkLight()[2]
 
 def updateLight():
     global redRGB
@@ -97,26 +100,27 @@ def sendGameEvent(kill_switch):
             "game": gsGame,
             "event": gsEvent,
             "data" : {
+                "value" : 100,
                 "frame": {
                     "zone-all-color": {
-                        "color": {"red": redRGB,"green": greenRGB,"blue": blueRGB}
+                        "color": {"red": 0,"green": 0,"blue": 0}
                     }
                 }
             }
         }
 
-        with Session() as s:
-            while kill_switch == 0:
+        while kill_switch == 0:
 
                 """ DEBUG """
                 print("[+] loopyloop")
                 """ DEBUG """       
-                print("[+] sendGameEvent(kill_switch)")
+                
                 print("[+] update light RGB state")
                 updateLight()
-                r = s.post(endpoint, json=payload)
+                payload['data']['frame']['zone-all-color']['color'] = {"red": redRGB,"green": greenRGB,"blue": blueRGB}
+                print("[+] sendGameEvent(kill_switch)")
+                r = post(endpoint, json=payload)
                 print(r.text)
-
                 if kill_switch == 1: break
 
                 """ DEBUG """
