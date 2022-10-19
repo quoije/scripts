@@ -19,12 +19,27 @@ haHeaders = {
 gsAddress = "http://127.0.0.1:50786"
 gsGame = "HA_LIGHT_SYNC"
 gsEvent = "SYNC"
+redRGB = 0
+greenRGB = 0
+blueRGB = 0
 
 def checkLight():
         """ Check HA light color """
         haResponse = get(haUrl, headers=haHeaders)
         haData = loads(haResponse.text)
         return haData['attributes']['rgb_color']
+
+def updateLight():
+    global redRGB
+    global greenRGB
+    global blueRGB
+    redRGB = checkLight()[0]
+    greenRGB = checkLight()[1]
+    blueRGB = checkLight()[2]
+    print("[+] RED: "+ str(redRGB))
+    print("[+] GREEN: "+ str(greenRGB))
+    print("[+] BLUE: "+ str(blueRGB))
+
 
 def registerGame():
         """Registers this application to Engine."""
@@ -66,10 +81,10 @@ def bindGameEvent():
             "game": gsGame,
             "event": gsEvent,
             "handlers": [{
-                        "mode": "color",
+                        "mode": "context-color",
                         "device-type": "keyboard",
                         "zone": "all",
-                        "color": {"red": 255,"green": 0,"blue": 255}
+                        "context-frame-key": "zone-all-color"
                         }]
                     }
         r = post(endpoint, json=payload)
@@ -77,13 +92,16 @@ def bindGameEvent():
 
 def sendGameEvent(kill_switch):
         """Sends a lighting event/frame to Engine."""
-        print("[+] sendGameEvent(kill_switch)")
         endpoint = f'{gsAddress}/game_event'
         payload = {
             "game": gsGame,
             "event": gsEvent,
             "data" : {
-                "value": 1
+                "frame": {
+                    "zone-all-color": {
+                        "color": {"red": redRGB,"green": greenRGB,"blue": blueRGB}
+                    }
+                }
             }
         }
 
@@ -93,7 +111,9 @@ def sendGameEvent(kill_switch):
                 """ DEBUG """
                 print("[+] loopyloop")
                 """ DEBUG """       
-
+                print("[+] sendGameEvent(kill_switch)")
+                print("[+] update light RGB state")
+                updateLight()
                 r = s.post(endpoint, json=payload)
                 print(r.text)
 
