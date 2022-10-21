@@ -8,7 +8,11 @@ from time import sleep
 # https://github.com/slattery-mark/SteelSeries-CKL-App
 # author: slattery-mark
 # modified by quoije
-# work with steelseries apex 3 keyboard, 10 zones
+# 
+# quick script to sync an home assistant light entity rgb color to the steelseries GG engine using gamesense-sdk
+# https://github.com/SteelSeries/gamesense-sdk
+# work with steelseries apex 3 keyboard, 10 zones, but should work with any devices
+# just need to change the device_type and zone
 #
 # change haAddress to your hass server, change haLight to your light entity
 # change gsGame, gsEvent to desired steelseries engine name
