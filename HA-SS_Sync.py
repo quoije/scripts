@@ -8,6 +8,11 @@ from time import sleep
 # https://github.com/slattery-mark/SteelSeries-CKL-App
 # author: slattery-mark
 # modified by quoije
+# work with steelseries apex 3 keyboard, 10 zones
+#
+# change haAddress to your hass server, change haLight to your light entity
+# change gsGame, gsEvent to desired steelseries engine name
+# change sleepTime to desired time of sleep between post request to ss engine
 
 haAddress = "192.168.0.42"
 haLight = "light.sb50_l4"
@@ -20,7 +25,7 @@ gsCorePropsPath = getenv('PROGRAMDATA') + "\SteelSeries\SteelSeries Engine 3\cor
 gsAddress = f'http://{load(open(gsCorePropsPath))["address"]}'
 gsGame = "HA_LIGHT_SYNC"
 gsEvent = "SYNC"
-
+sleepTime = 1.00
 
 def checkLight():
         """ Check HA light color """
@@ -85,9 +90,9 @@ def bindGameEvent():
             "event": gsEvent,
             "handlers": [{
                         "mode": "context-color",
-                        "device-type": "keyboard",
-                        "zone": "all",
-                        "context-frame-key": "zone-all-color"
+                        "device-type": "rgb-zoned-device",
+                        "zone": "one",
+                        "context-frame-key": "zone-color"
                         }]
                     }
         r = post(endpoint, json=payload)
@@ -100,10 +105,9 @@ def sendGameEvent(kill_switch):
             "game": gsGame,
             "event": gsEvent,
             "data" : {
-                "value" : 100,
                 "frame": {
-                    "zone-all-color": {
-                        "color": {"red": redRGB,"green": greenRGB,"blue": blueRGB}
+                    "zone-color": {
+                        "red": 0,"green": 0,"blue": 0
                     }
                 }
             }
@@ -117,7 +121,7 @@ def sendGameEvent(kill_switch):
                 
                 print("[+] update light RGB state")
                 updateLight()
-                payload['data']['frame']['zone-all-color']['color'] = {"red": redRGB,"green": greenRGB,"blue": blueRGB}
+                payload['data']['frame']['zone-color'] = {"red": redRGB,"green": greenRGB,"blue": blueRGB}
                 print("[+] sendGameEvent(kill_switch)")
                 r = post(endpoint, json=payload)
                 print(r.text)
@@ -127,15 +131,15 @@ def sendGameEvent(kill_switch):
                 print("[+] HA RGB: " + str(checkLight()[0]) + " " + str(checkLight()[1]) + " " + str(checkLight()[2]))
                 """ DEBUG """
 
-                sleep(1.01)
+                sleep(sleepTime)
 
-print("[+] removing game event for debug")
+print("[+] removing game event")
 removeGameEvent()
-print("[+] removing game for debug")
+print("[+] removing game")
 removeGame()
-print("[+] register game for debug")
+print("[+] register game")
 registerGame()
-print("[+] bind game for debug")
+print("[+] bind game")
 bindGameEvent()
-print("[+] send game for debug")
+print("[+] send game")
 sendGameEvent(0)
