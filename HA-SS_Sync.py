@@ -29,7 +29,7 @@ gsCorePropsPath = getenv('PROGRAMDATA') + "\SteelSeries\SteelSeries Engine 3\cor
 gsAddress = f'http://{load(open(gsCorePropsPath))["address"]}'
 gsGame = "HA_LIGHT_SYNC"
 gsEvent = "SYNC"
-sleepTime = 1.00
+sleepTime = 0.50
 
 def checkLight():
         """ Check HA light color """
