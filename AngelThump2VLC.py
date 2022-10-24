@@ -1,4 +1,3 @@
-from requests import get
 from requests import post
 import argparse
 import json
