@@ -11,8 +11,7 @@ def getToken():
         print("[+] getting token")
         endpoint = 'https://vigor.angelthump.com/' + args.c + '/token'
         jHeaders =  {"Content-Type": "application/json", "Identifier": "SwnpX0RnA99YdRj0SPqs"}
-        payload = {}
-        r = post(endpoint, json=payload, headers=jHeaders)
+        r = post(endpoint, headers=jHeaders)
         return json.loads(r.text)["token"]
 
 def getHLS():
