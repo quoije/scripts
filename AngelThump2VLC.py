@@ -41,9 +41,11 @@ if args.c:
     print("[+] channel: % s" % args.c)
     if args.c == "windowsmoviehouse":
         print("[+] getting title")
+        print("[+] -----------------------")
         print("[+] "+ ogTitle + " - " + getATTitleYear() + " (" + ogRuntime + ")")
         print("[+] Start: "+ ogStart)
         print("[+] End: "+ ogEnd)
+        print("[+] -----------------------")
     playVLC()
     print("[+] opening VLC")
 else:
