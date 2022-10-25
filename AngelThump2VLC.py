@@ -7,6 +7,7 @@ import subprocess
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", help = "AngelThump channel name")
+parser.add_argument("-t", help = "get title", action='store_true')
 args = parser.parse_args()
 
 def getAT():
@@ -18,6 +19,7 @@ ogTitle = getAT().body.find('div', attrs={'id':'original-title'}).text
 ogStart = getAT().body.find('div', attrs={'id':'start'}).text
 ogEnd = getAT().body.find('div', attrs={'id':'end'}).text
 ogRuntime = getAT().body.find('div', attrs={'id':'runtime'}).text
+ogOverview = (getAT().body.find('div', attrs={'id':'overview'}).text)
 
 def getATTitleYear():
     s = getAT().body.find('div', attrs={'id':'title'}).text 
@@ -35,18 +37,24 @@ def getHLS():
     return endpoint
 
 def playVLC():
-    subprocess.Popen(["C:/Program Files/VideoLAN/VLC/vlc.exe",getHLS()])
+    subprocess.Popen(["C:/Program Files/VideoLAN/VLC/vlc.exe",getHLS(), "--qt-minimal-view"])
 
-if args.c:
-    print("[+] channel: % s" % args.c)
-    if args.c == "windowsmoviehouse":
+def ayyLmao():
         print("[+] getting title")
         print("[+] -----------------------")
         print("[+] "+ ogTitle + " - " + getATTitleYear() + " (" + ogRuntime + ")")
         print("[+] Start: "+ ogStart)
         print("[+] End: "+ ogEnd)
+        print("[+] Overview: "+ ogOverview)
         print("[+] -----------------------")
+
+if args.c:
+    print("[+] channel: % s" % args.c)
+    if args.c == "windowsmoviehouse":
+       ayyLmao()
     playVLC()
     print("[+] opening VLC")
+elif args.t:
+    ayyLmao()
 else:
     print("[+] you need to input a channel name bozo '-c'")
