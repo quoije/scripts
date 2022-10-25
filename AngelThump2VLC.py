@@ -44,7 +44,7 @@ if args.c:
         print("[+] "+ ogTitle + " - " + getATTitleYear() + " (" + ogRuntime + ")")
         print("[+] Start: "+ ogStart)
         print("[+] End: "+ ogEnd)
-    # playVLC()
+    playVLC()
     print("[+] opening VLC")
 else:
     print("[+] you need to input a channel name bozo '-c'")
