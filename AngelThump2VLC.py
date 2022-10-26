@@ -6,8 +6,8 @@ import json
 import subprocess
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-c", help = "AngelThump channel name")
-parser.add_argument("-t", help = "get title", action='store_true')
+parser.add_argument("-c", help = "[+] AngelThump channel name")
+parser.add_argument("-t", help = "[+] getting title for windowsmoviehouse channel", action='store_true')
 args = parser.parse_args()
 
 def getAT():
@@ -25,36 +25,41 @@ def getATTitleYear():
     s = getAT().body.find('div', attrs={'id':'title'}).text 
     return s[s.find('(')+1:s.find(')')]
 
-def getToken():
-    print("[+] getting token")
-    endpoint = 'https://vigor.angelthump.com/' + args.c + '/token'
+def getToken(channel):
+    print("[++] getting token")
+    endpoint = 'https://vigor.angelthump.com/' + channel + '/token'
     jHeaders =  {"Content-Type": "application/json", "Identifier": "SwnpX0RnA99YdRj0SPqs"}
     r = post(endpoint, headers=jHeaders)
     return json.loads(r.text)["token"]
 
-def getHLS():
-    endpoint = 'https://vigor.angelthump.com/hls/' + args.c + '.m3u8?token=' + getToken()
+def getHLS(channel):
+    endpoint = 'https://vigor.angelthump.com/hls/' + channel + '.m3u8?token=' + getToken(channel)
     return endpoint
 
-def playVLC():
-    subprocess.Popen(["C:/Program Files/VideoLAN/VLC/vlc.exe",getHLS(), "--qt-minimal-view"])
+def playVLC(channel):
+    subprocess.Popen(["C:/Program Files/VideoLAN/VLC/vlc.exe",getHLS(channel), "--qt-minimal-view"])
 
 def ayyLmao():
-        print("[+] getting title")
-        print("[+] -----------------------")
-        print("[+] "+ ogTitle + " - " + getATTitleYear() + " (" + ogRuntime + ")")
-        print("[+] Start: "+ ogStart)
-        print("[+] End: "+ ogEnd)
-        print("[+] Overview: "+ ogOverview)
-        print("[+] -----------------------")
+    print("[+] getting title for windowsmoviehouse channel")
+    print("[++] -----------------------")
+    print("[++] "+ ogTitle + " - " + getATTitleYear() + " (" + ogRuntime + ")")
+    print("[++] Start: "+ ogStart)
+    print("[++] End: "+ ogEnd)
+    print("[++] Overview: "+ ogOverview)
+    print("[++] -----------------------")
 
 if args.c:
     print("[+] channel: % s" % args.c)
     if args.c == "windowsmoviehouse":
        ayyLmao()
-    playVLC()
-    print("[+] opening VLC")
+    playVLC(args.c)
+    print("[++] opening VLC")
 elif args.t:
     ayyLmao()
 else:
     print("[+] you need to input a channel name bozo '-c'")
+    print("[++] ..........................................")
+    print("[+] default channel then: windowsmoviehouse")
+    ayyLmao()
+    playVLC("windowsmoviehouse")
+    print("[++] opening VLC")
