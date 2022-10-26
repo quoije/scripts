@@ -10,7 +10,8 @@ def ayy(username, password):
             "username" : username,
             "password" : password,
         }
-        r = post(endpoint, json=payload)
+        cookies = {'token': 'guest'}
+        r = post(endpoint, json=payload, cookies=cookies)
         print("[+] " + r.text)
         return r.text
 
