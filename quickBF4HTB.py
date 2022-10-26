@@ -6,12 +6,11 @@ usrn = ["bean.hill", "christine.wool", "christopher.jones", "jackson.lightheart"
 
 def ayy(username, password):
         endpoint = "http://hat-valley.htb/api/login"
-        headers = ""
         payload = {
             "username" : username,
             "password" : password,
         }
-        r = post(endpoint, json=payload, headers = headers)
+        r = post(endpoint, json=payload)
         print("[+] " + r.text)
         return r.text
 
