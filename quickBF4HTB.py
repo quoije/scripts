@@ -3,8 +3,6 @@ import time
 
 wordlist = "/usr/share/wordlists/rockyou.txt"
 found = False
-pwn = "nope"
-request = "ayy"
 usern = "bean.hill"
 
 def ayy(username, password):
@@ -27,7 +25,6 @@ with open(wordlist,'r') as mariob:
 								print("[+] Found?: " + str(found))
 								time.sleep(.01)
 							else:
-								pwn = pasw
 								found = True
 								print("[+] Found?: " + str(found) + " | password: " + pasw)
 					else: exit()
