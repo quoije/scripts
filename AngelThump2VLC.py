@@ -59,7 +59,12 @@ elif args.t:
 else:
     print("[+] you need to input a channel name bozo '-c'")
     print("[++] ..........................................")
-    print("[+] default channel then: windowsmoviehouse")
-    ayyLmao()
-    playVLC("windowsmoviehouse")
-    print("[++] opening VLC")
+    print("[+] default channels then:")
+    choice = input('[+]  (1) windowsmoviehouse / (2) kinokomplex \n[+] Put your input: ')
+    if choice == "1":
+        ayyLmao()
+        playVLC("windowsmoviehouse")
+        print("[++] opening VLC")
+    elif choice == "2":
+        playVLC("kinokomplex")
+        print("[++] opening VLC")
