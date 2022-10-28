@@ -68,3 +68,7 @@ else:
     elif choice == "2":
         playVLC("kinokomplex")
         print("[++] opening VLC")
+    else:
+        ayyLmao()
+        playVLC("windowsmoviehouse")
+        print("[++] opening VLC")
